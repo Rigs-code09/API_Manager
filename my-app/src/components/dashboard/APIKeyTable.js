@@ -3,7 +3,7 @@ import { useState } from 'react';
 export const APIKeyTable = ({ 
   apiKeys, 
   loading, 
-  isDarkMode, 
+  isDarkMode,  
   onEdit, 
   onDelete, 
   onCopy, 
