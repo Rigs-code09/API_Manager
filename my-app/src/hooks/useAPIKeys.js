@@ -8,7 +8,7 @@ export const useAPIKeys = (showToast) => {
 
   // Generate a random API key
   const generateApiKey = () => {
-    return 'tvly-' + Array.from({length: 32}, () => Math.random().toString(36)[2] || '0').join('');
+    return 'rig-' + Array.from({length: 32}, () => Math.random().toString(36)[2] || '0').join('');
   };
 
   // Transform Supabase data to match component structure

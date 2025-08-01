@@ -1,36 +1,141 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🔑 API Manager
 
-## Getting Started
+A modern, full-stack web application for managing API keys with comprehensive validation, usage tracking, and security features.
 
-First, run the development server:
+## 🎯 What is API Manager?
 
+API Manager is a centralized dashboard that provides organizations and developers with a complete solution for:
+
+- **API Key Management**: Create, read, update, and delete API keys with detailed metadata
+- **Validation & Testing**: Secure playground environment for testing API key validity
+- **Usage Monitoring**: Track usage patterns, set limits, and monitor access
+- **Permission Control**: Role-based access with read/write/admin permissions
+- **Modern UI/UX**: Dark/light mode, responsive design, and accessibility features
+
+## 🚀 Key Features
+
+- ✅ **Full CRUD Operations** for API key management
+- ✅ **Secure API Key Generation** with unique `rig-` prefixed keys
+- ✅ **Real-time Validation** through integrated testing playground
+- ✅ **Usage Analytics** with monthly limits and tracking
+- ✅ **Permission System** (read/write/admin access levels)
+- ✅ **Modern UI** with dark/light mode and keyboard shortcuts
+- ✅ **Supabase Integration** for secure, scalable backend
+- ✅ **Responsive Design** optimized for all devices
+
+## 📚 Documentation
+
+For detailed information about the application:
+
+- **[📖 Complete Documentation](./API_MANAGER_DOCUMENTATION.md)** - Full app overview, use cases, and features
+- **[🏗️ Technical Architecture](./TECHNICAL_ARCHITECTURE.md)** - In-depth technical implementation details
+- **[🔧 Component Structure](./COMPONENT_STRUCTURE.md)** - Code organization and architecture
+- **[🗄️ Supabase Setup](./SUPABASE_SETUP.md)** - Database configuration guide
+
+## 🏃‍♂️ Quick Start
+
+### 1. Install Dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Environment Setup
+Create `.env.local` file:
+```env
+NEXT_PUBLIC_SUPABASE_URL=your-supabase-project-url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### 3. Database Setup
+1. Create a Supabase project
+2. Run the SQL schema from `UPDATED_SCHEMA.sql`
+3. Configure Row Level Security policies
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 4. Start Development Server
+```bash
+npm run dev
+```
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-To learn more about Next.js, take a look at the following resources:
+## 🎮 Usage
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Main Dashboard (`/api-keys`)
+- View all API keys with usage statistics
+- Create new keys with custom permissions
+- Edit existing key properties
+- Delete unused keys
+- Test Supabase connection
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### API Playground (`/playground`)
+- Enter API keys for validation
+- Secure testing environment
+- Real-time validation feedback
 
-## Deploy on Vercel
+### Keyboard Shortcuts
+- `Ctrl+N`: Create new API key
+- `Ctrl+D`: Toggle dark mode
+- `T`: Test connection
+- `S`: Toggle sidebar
+- `?`: Show all shortcuts
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🛠️ Tech Stack
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Frontend**: Next.js 15.4.5 with React 19.1.0
+- **Styling**: Tailwind CSS v4 with dark/light mode
+- **Backend**: Supabase (PostgreSQL + API)
+- **State Management**: Custom React hooks
+- **Deployment**: Vercel-ready
+
+## 🔐 Security Features
+
+- **Row Level Security** (RLS) enabled database
+- **Unique API key constraints** at database level
+- **Secure key generation** with cryptographic randomness
+- **Input validation** on client and server
+- **Environment variable protection** for sensitive data
+
+## 🎯 Use Cases
+
+### For API Providers
+- Manage customer API keys
+- Track usage and enforce limits
+- Control access permissions
+
+### For Development Teams
+- Centralized key management
+- Team collaboration features
+- Usage monitoring and analytics
+
+### For Individual Developers
+- Personal API key organization
+- Testing and validation tools
+- Learning API security concepts
+
+## 📈 Future Enhancements
+
+- **Authentication**: User accounts with Supabase Auth
+- **Team Management**: Multi-user organizations
+- **Advanced Analytics**: Usage patterns and insights
+- **Rate Limiting**: API call rate controls
+- **Webhooks**: Integration capabilities
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📞 Support
+
+For questions or issues:
+1. Check the documentation files
+2. Review the browser console for errors
+3. Verify Supabase configuration
+4. Ensure database schema is properly set up
+
+## 📄 License
+
+This project is built with Next.js and uses the MIT license framework.
