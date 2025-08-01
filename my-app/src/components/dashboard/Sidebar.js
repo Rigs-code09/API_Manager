@@ -60,14 +60,9 @@ export const Sidebar = ({ isDarkMode, isVisible }) => {
       {/* User Profile */}
       <div className={`p-4 border-t ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
         <div className="flex items-center">
-          <Image 
-            className="w-10 h-10 rounded-full" 
-            src="https://i.pravatar.cc/40?u=eden" 
-            alt="Eden Marco" 
-            width={40}
-            height={40}
-            priority={false}
-          />
+          <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold ${isDarkMode ? 'bg-purple-600' : 'bg-purple-500'}`}>
+            EM
+          </div>
           <div className="ml-3">
             <p className={`text-sm font-semibold ${isDarkMode ? 'text-white' : 'text-gray-800'}`}>Eden Marco</p>
           </div>

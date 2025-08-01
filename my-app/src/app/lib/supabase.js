@@ -65,9 +65,12 @@ export const apiKeysService = {
 
       const insertData = {
         name: apiKeyData.name,
-        key: apiKeyData.key,
-        type: apiKeyData.permissions || 'read',
-        usage: 0
+        description: apiKeyData.description || '',
+        api_key: apiKeyData.api_key, // Use correct column name
+        permissions: apiKeyData.permissions || 'read',
+        limit_usage: apiKeyData.limitUsage || false,
+        monthly_limit: apiKeyData.monthlyLimit || 1000,
+        usage_count: 0
       };
       
       console.log('Insert data:', insertData);
@@ -105,7 +108,10 @@ export const apiKeysService = {
       .from('api_keys')
       .update({
         name: updates.name,
-        type: updates.permissions || 'read'
+        description: updates.description || '',
+        permissions: updates.permissions || 'read',
+        limit_usage: updates.limitUsage || false,
+        monthly_limit: updates.monthlyLimit || 1000
       })
       .eq('id', id)
       .select()
@@ -129,7 +135,8 @@ export const apiKeysService = {
     const { data, error } = await supabase
       .from('api_keys')
       .update({ 
-        usage: usageCount
+        usage_count: usageCount, // Use correct column name
+        last_used: new Date().toISOString()
       })
       .eq('id', id)
       .select()

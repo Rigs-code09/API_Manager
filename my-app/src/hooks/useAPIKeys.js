@@ -15,15 +15,15 @@ export const useAPIKeys = (showToast) => {
   const transformKey = (key) => ({
     id: key.id,
     name: key.name,
-    description: '', // Not in database
-    key: key.key, // Use 'key' column from database
-    permissions: key.type, // Use 'type' column for permissions
-    limitUsage: false, // Not in database
-    monthlyLimit: 1000, // Not in database
-    usage: key.usage,
+    description: key.description || '', // Map from database
+    key: key.api_key, // Map from 'api_key' column in database
+    permissions: key.permissions || 'read', // Map from 'permissions' column
+    limitUsage: key.limit_usage || false, // Map from database
+    monthlyLimit: key.monthly_limit || 1000, // Map from database
+    usage: key.usage_count || 0, // Map from 'usage_count' column
     createdAt: key.created_at,
-    updatedAt: key.created_at, // Use created_at since no updated_at
-    lastUsed: null // Not in database
+    updatedAt: key.updated_at || key.created_at, // Use updated_at if available
+    lastUsed: key.last_used // Map from database
   });
 
   // Load API keys from Supabase
@@ -49,7 +49,7 @@ export const useAPIKeys = (showToast) => {
       setError(null);
       const newKeyData = {
         ...formData,
-        key: generateApiKey()
+        api_key: generateApiKey() // Use 'api_key' for database
       };
       
       const createdKey = await apiKeysService.create(newKeyData);
