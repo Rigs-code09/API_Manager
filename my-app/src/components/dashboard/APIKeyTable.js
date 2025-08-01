@@ -67,6 +67,14 @@ export const APIKeyTable = ({
     }
   };
 
+  // Format API key for display
+  const formatApiKey = (apiKey) => {
+    if (!apiKey || typeof apiKey !== 'string') {
+      return 'Invalid key';
+    }
+    return apiKey.length > 5 ? `${apiKey.substring(0, 5)}${'•'.repeat(Math.min(32, apiKey.length - 5))}` : apiKey;
+  };
+
   return (
     <div className={`${isDarkMode ? 'bg-gray-800 border-gray-700' : 'bg-white border-gray-200'} rounded-lg shadow-sm border`}>
       <div className={`flex justify-between items-center p-6 border-b ${isDarkMode ? 'border-gray-700' : 'border-gray-200'}`}>
@@ -141,14 +149,18 @@ export const APIKeyTable = ({
                   title="Press Enter to edit, V to toggle visibility, Ctrl+C to copy, Shift+Delete to delete"
                 >
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>{key.name}</div>
+                    <div className={`text-sm font-medium ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                      {key.name || 'Unnamed Key'}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-900'}`}>{key.usage || 0}</div>
+                    <div className={`text-sm ${isDarkMode ? 'text-gray-300' : 'text-gray-900'}`}>
+                      {key.usage || 0}
+                    </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className={`text-sm font-mono ${isDarkMode ? 'text-gray-300' : 'text-gray-900'}`}>
-                      {visibleKeys.has(key.id) ? key.key : `${key.key.substring(0, 5)}${'•'.repeat(32)}`}
+                      {visibleKeys.has(key.id) ? (key.key || 'Invalid key') : formatApiKey(key.key)}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right">
@@ -171,8 +183,8 @@ export const APIKeyTable = ({
                         )}
                       </button>
                       <button
-                        onClick={() => onCopy(key.key)}
-                        onKeyDown={(e) => handleButtonKeyDown(e, onCopy, key.key)}
+                        onClick={() => onCopy(key.key || '')}
+                        onKeyDown={(e) => handleButtonKeyDown(e, onCopy, key.key || '')}
                         className={`${isDarkMode ? 'text-gray-500 hover:text-gray-300' : 'text-gray-400 hover:text-gray-600'} p-1 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded`}
                         title="Copy (Ctrl+C)"
                       >
