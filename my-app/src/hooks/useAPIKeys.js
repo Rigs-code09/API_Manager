@@ -15,15 +15,15 @@ export const useAPIKeys = (showToast) => {
   const transformKey = (key) => ({
     id: key.id,
     name: key.name,
-    description: key.description || '', // Map from database
-    key: key.api_key, // Map from 'api_key' column in database
-    permissions: key.permissions || 'read', // Map from 'permissions' column
-    limitUsage: key.limit_usage || false, // Map from database
-    monthlyLimit: key.monthly_limit || 1000, // Map from database
-    usage: key.usage_count || 0, // Map from 'usage_count' column
+    description: '', // Not in database, default to empty
+    key: key.key, // Map from 'key' column in your database
+    permissions: key.type || 'read', // Map from 'type' column in your database
+    limitUsage: false, // Not in database, default to false
+    monthlyLimit: 1000, // Not in database, default to 1000
+    usage: key.usage || 0, // Map from 'usage' column in your database
     createdAt: key.created_at,
-    updatedAt: key.updated_at || key.created_at, // Use updated_at if available
-    lastUsed: key.last_used // Map from database
+    updatedAt: key.created_at, // Use created_at since updated_at doesn't exist
+    lastUsed: null // Not in database, default to null
   });
 
   // Load API keys from Supabase
@@ -31,12 +31,29 @@ export const useAPIKeys = (showToast) => {
     try {
       setLoading(true);
       setError(null);
+      
       const keys = await apiKeysService.getAll();
       const transformedKeys = keys.map(transformKey);
       setApiKeys(transformedKeys);
     } catch (err) {
       console.error('Error loading API keys:', err);
-      setError('Failed to load API keys. Please try again.');
+      
+      // More detailed error messages based on common issues
+      let errorMessage = 'Failed to load API keys. ';
+      
+      if (err.message.includes('Missing Supabase environment variables')) {
+        errorMessage += 'Environment variables not configured.';
+      } else if (err.message.includes('relation "api_keys" does not exist')) {
+        errorMessage += 'Database table not found. Please run the SQL schema.';
+      } else if (err.message.includes('JWT')) {
+        errorMessage += 'Invalid Supabase credentials.';
+      } else if (err.message.includes('timeout')) {
+        errorMessage += 'Connection timeout. Check your internet connection.';
+      } else {
+        errorMessage += `Details: ${err.message}`;
+      }
+      
+      setError(errorMessage);
       showToast('❌ Failed to load API keys', 'error');
     } finally {
       setLoading(false);
@@ -48,8 +65,10 @@ export const useAPIKeys = (showToast) => {
     try {
       setError(null);
       const newKeyData = {
-        ...formData,
-        api_key: generateApiKey() // Use 'api_key' for database
+        name: formData.name,
+        key: generateApiKey(), // Use 'key' column in your database
+        type: formData.permissions || 'read', // Map permissions to 'type' column
+        usage: 0 // Initialize usage counter
       };
       
       const createdKey = await apiKeysService.create(newKeyData);

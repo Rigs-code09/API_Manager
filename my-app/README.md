@@ -31,6 +31,7 @@ For detailed information about the application:
 - **[🏗️ Technical Architecture](./TECHNICAL_ARCHITECTURE.md)** - In-depth technical implementation details
 - **[🔧 Component Structure](./COMPONENT_STRUCTURE.md)** - Code organization and architecture
 - **[🗄️ Supabase Setup](./SUPABASE_SETUP.md)** - Database configuration guide
+- **[🔄 Database Schema Mapping](./DATABASE_SCHEMA_MAPPING.md)** - How code adapts to your existing database
 
 ## 🏃‍♂️ Quick Start
 

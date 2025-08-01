@@ -1,16 +1,16 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 export const useToast = () => {
   const [toast, setToast] = useState(null);
 
-  const showToast = (message, type = 'success') => {
+  const showToast = useCallback((message, type = 'success') => {
     setToast({ message, type });
     setTimeout(() => setToast(null), 3000); // Auto-dismiss after 3 seconds
-  };
+  }, []);
 
-  const hideToast = () => {
+  const hideToast = useCallback(() => {
     setToast(null);
-  };
+  }, []);
 
   return {
     toast,
