@@ -2,19 +2,23 @@ import { useState, useEffect } from 'react';
 
 export const useTheme = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(false);
 
-  // Load theme preference from localStorage on mount
+  // Initialize theme on client-side only to prevent hydration mismatch
   useEffect(() => {
+    setIsHydrated(true);
     const savedTheme = localStorage.getItem('isDarkMode');
     if (savedTheme) {
       setIsDarkMode(JSON.parse(savedTheme));
     }
   }, []);
 
-  // Save theme preference to localStorage whenever it changes
+  // Save theme preference to localStorage whenever it changes (only after hydration)
   useEffect(() => {
-    localStorage.setItem('isDarkMode', JSON.stringify(isDarkMode));
-  }, [isDarkMode]);
+    if (isHydrated) {
+      localStorage.setItem('isDarkMode', JSON.stringify(isDarkMode));
+    }
+  }, [isDarkMode, isHydrated]);
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);

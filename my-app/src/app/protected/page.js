@@ -20,6 +20,7 @@ function ProtectedContent() {
   const [validationResult, setValidationResult] = useState(null);
   const [hasValidated, setHasValidated] = useState(false);
   const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const [isHydrated, setIsHydrated] = useState(false);
   
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -29,9 +30,14 @@ function ProtectedContent() {
   const { isDarkMode, toggleDarkMode } = useTheme();
   const { apiKeys, loading: apiKeysLoading } = useAPIKeys(() => {});
 
-  // Validate API key once API keys are loaded and not validated yet
+  // Set hydrated state to prevent accessing searchParams during SSR
   useEffect(() => {
-    if (hasValidated || apiKeysLoading) return;
+    setIsHydrated(true);
+  }, []);
+
+  // Validate API key once API keys are loaded and component is hydrated
+  useEffect(() => {
+    if (hasValidated || apiKeysLoading || !isHydrated) return;
 
     const apiKeyFromUrl = searchParams.get('apikey');
 
@@ -62,7 +68,7 @@ function ProtectedContent() {
     };
 
     runValidation();
-  }, [hasValidated, apiKeysLoading, apiKeys, searchParams, showToast]);
+  }, [hasValidated, apiKeysLoading, apiKeys, searchParams, showToast, isHydrated]);
 
   // Toggle sidebar visibility
   const toggleSidebar = () => {
