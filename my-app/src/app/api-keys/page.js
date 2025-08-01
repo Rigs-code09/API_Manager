@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 // Custom Hooks
 import { useToast } from '../../hooks/useToast';
@@ -36,6 +36,36 @@ export default function ApiKeysPage() {
     deleteApiKey, 
     testConnectionHandler 
   } = useAPIKeys(showToast);
+
+  // Show keyboard shortcuts
+  const showKeyboardShortcuts = useCallback(() => {
+    showToast(`
+      🚀 Keyboard Shortcuts:
+      • Ctrl+N: New API Key
+      • Ctrl+D: Toggle Dark Mode  
+      • T: Test Connection
+      • S: Toggle Sidebar
+      • Esc: Close Modal/Error
+      • ?: Show Shortcuts
+      
+      📋 Table Navigation:
+      • Enter: Edit selected key
+      • V: Toggle key visibility
+      • Ctrl+C: Copy key
+      • Shift+Delete: Delete key
+    `, 'info', 8000);
+  }, [showToast]);
+
+  // Handle modal opening
+  const openModal = useCallback((key = null) => {
+    setEditingKey(key);
+    setIsModalOpen(true);
+  }, []);
+
+  // Toggle sidebar visibility
+  const toggleSidebar = useCallback(() => {
+    setIsSidebarVisible(!isSidebarVisible);
+  }, [isSidebarVisible]);
 
   // Global keyboard shortcuts
   useEffect(() => {
@@ -80,32 +110,7 @@ export default function ApiKeysPage() {
 
     document.addEventListener('keydown', handleGlobalKeyDown);
     return () => document.removeEventListener('keydown', handleGlobalKeyDown);
-  }, [isModalOpen, error, toggleDarkMode, testConnectionHandler]);
-
-  // Show keyboard shortcuts
-  const showKeyboardShortcuts = () => {
-    showToast(`
-      🚀 Keyboard Shortcuts:
-      • Ctrl+N: New API Key
-      • Ctrl+D: Toggle Dark Mode  
-      • T: Test Connection
-      • S: Toggle Sidebar
-      • Esc: Close Modal/Error
-      • ?: Show Shortcuts
-      
-      📋 Table Navigation:
-      • Enter: Edit selected key
-      • V: Toggle key visibility
-      • Ctrl+C: Copy key
-      • Shift+Delete: Delete key
-    `, 'info', 8000);
-  };
-
-  // Handle modal opening
-  const openModal = (key = null) => {
-    setEditingKey(key);
-    setIsModalOpen(true);
-  };
+  }, [isModalOpen, error, toggleDarkMode, testConnectionHandler, setError, showKeyboardShortcuts, toggleSidebar, openModal]);
 
   // Handle form submission
   const handleSubmit = async (formData) => {
@@ -126,11 +131,6 @@ export default function ApiKeysPage() {
   const closeModal = () => {
     setEditingKey(null);
     setIsModalOpen(false);
-  };
-
-  // Toggle sidebar visibility
-  const toggleSidebar = () => {
-    setIsSidebarVisible(!isSidebarVisible);
   };
 
   return (

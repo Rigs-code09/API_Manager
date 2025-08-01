@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 // Custom Hooks
@@ -15,7 +15,7 @@ import { Toast } from '../../components/ui/Toast';
 import { Sidebar } from '../../components/dashboard/Sidebar';
 import { Header } from '../../components/dashboard/Header';
 
-export default function ProtectedPage() {
+function ProtectedContent() {
   const [isValidating, setIsValidating] = useState(true);
   const [validationResult, setValidationResult] = useState(null);
   const [hasValidated, setHasValidated] = useState(false);
@@ -62,7 +62,7 @@ export default function ProtectedPage() {
     };
 
     runValidation();
-  }, [hasValidated, apiKeysLoading, apiKeys, searchParams]);
+  }, [hasValidated, apiKeysLoading, apiKeys, searchParams, showToast]);
 
   // Toggle sidebar visibility
   const toggleSidebar = () => {
@@ -242,5 +242,25 @@ export default function ProtectedPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Loading fallback component
+function ProtectedPageFallback() {
+  return (
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+        <p className="text-gray-600">Loading...</p>
+      </div>
+    </div>
+  );
+}
+
+export default function ProtectedPage() {
+  return (
+    <Suspense fallback={<ProtectedPageFallback />}>
+      <ProtectedContent />
+    </Suspense>
   );
 } 

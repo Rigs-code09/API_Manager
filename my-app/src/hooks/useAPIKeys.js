@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { apiKeysService, testConnection } from '../app/lib/supabase';
 
 export const useAPIKeys = (showToast) => {
@@ -27,7 +27,7 @@ export const useAPIKeys = (showToast) => {
   });
 
   // Load API keys from Supabase
-  const loadApiKeys = async () => {
+  const loadApiKeys = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -41,7 +41,7 @@ export const useAPIKeys = (showToast) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
 
   // Create new API key
   const createApiKey = async (formData) => {
@@ -120,7 +120,7 @@ export const useAPIKeys = (showToast) => {
   // Load data on mount
   useEffect(() => {
     loadApiKeys();
-  }, []);
+  }, [loadApiKeys]);
 
   return {
     apiKeys,
