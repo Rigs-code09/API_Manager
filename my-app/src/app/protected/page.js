@@ -204,7 +204,7 @@ export default function ProtectedPage() {
                           Possible Issues:
                         </h3>
                         <ul className={`text-left space-y-1 ${isDarkMode ? 'text-gray-300' : 'text-gray-700'}`}>
-                          <li>• API key doesn't exist in our system</li>
+                          <li>• API key doesn&apos;t exist in our system</li>
                           <li>• Key may have been revoked or expired</li>
                           <li>• Incorrect key format or typo</li>
                           <li>• Key belongs to a different environment</li>

@@ -180,9 +180,9 @@ export default function PlaygroundPage() {
                     </h3>
                     <ul className={`text-sm ${isDarkMode ? 'text-blue-200' : 'text-blue-700'} space-y-1`}>
                       <li>• Enter your API key in the field above</li>
-                      <li>• Click "Validate API Key" or press Enter</li>
-                      <li>• We'll securely check if your key is valid</li>
-                      <li>• Get instant feedback on your key's status</li>
+                      <li>• Click &quot;Validate API Key&quot; or press Enter</li>
+                      <li>• We&apos;ll securely check if your key is valid</li>
+                      <li>• Get instant feedback on your key&apos;s status</li>
                     </ul>
                   </div>
                 </div>

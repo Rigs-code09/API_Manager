@@ -21,7 +21,7 @@ export const ErrorMessage = ({ error, isDarkMode, onClose, onTestConnection }) =
           )}
           {error.includes('Database error') && (
             <div className="mt-2 text-sm">
-              <p>This usually means the database table doesn't exist. Check the SUPABASE_SETUP.md file for SQL setup instructions.</p>
+              <p>This usually means the database table doesn&apos;t exist. Check the SUPABASE_SETUP.md file for SQL setup instructions.</p>
             </div>
           )}
         </div>
